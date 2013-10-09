@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ReSharper.DictionaryHelper</id>
+    <version>0.1.0</version>
+    <title>ReSharper.DictionaryHelper</title>
+    <authors>Alexander Zaytsev</authors>
+    <owners>Hazzik</owners>
+    <licenseUrl>http://github.com/hazzik/ReSharper.DictionaryHelper/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/hazzik/ReSharper.DictionaryHelper/</projectUrl>
+    <!--<iconUrl></iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A set of refactorings for IDictionary&lt;,&gt;</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © Hazzik, 2013</copyright>
+    <tags>ReSharper Refactorings Dictionary ContainsKey TryGetValue</tags>
+  </metadata>
+  <files>
+    <file src="bin\$Configuration$\*.dll" target="ReSharper\v8.0\plugins\" />
+    <file src="bin\$Configuration$\*.pdb" target="ReSharper\v8.0\plugins\" />
+  </files>
+</package>

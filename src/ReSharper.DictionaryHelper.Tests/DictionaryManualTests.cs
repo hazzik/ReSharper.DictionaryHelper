@@ -26,7 +26,7 @@ namespace ReSharper.DictionaryHelper.Tests
             else
             {
             }
-            
+
             if (dictionary.ContainsKey(key))
             {
                 {
