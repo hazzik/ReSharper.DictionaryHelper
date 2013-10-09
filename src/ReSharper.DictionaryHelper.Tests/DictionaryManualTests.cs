@@ -10,6 +10,13 @@ namespace ReSharper.DictionaryHelper.Tests
         private static int z4;
         private int z3;
 
+        public int Test1(Dictionary<int, int> dictionary, int key)
+        {
+            if (dictionary.ContainsKey(key))
+                return dictionary[key];
+            return -1;
+        }
+
         [Test]
         public void AvailabilityTest()
         {

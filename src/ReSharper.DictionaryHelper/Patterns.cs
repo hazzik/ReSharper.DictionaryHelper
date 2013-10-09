@@ -69,6 +69,16 @@ namespace ReSharper.DictionaryHelper
                 }
                 yield break;
             }
+            
+            var @return = statement as IReturnStatement;
+            if (@return != null)
+            {
+                foreach (var returnResult in FindDictionaryAccess(@return.Value))
+                {
+                    yield return returnResult;
+                }
+                yield break;
+            }
 
             foreach (var r in statement.Children().SelectMany(GetDictionaryAccess))
             {
