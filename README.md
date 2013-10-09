@@ -1,6 +1,6 @@
 ###ReSharper.DictionaryHelper
 
-This is a pluging for [ReSharper](http://jetbrains.com/resharper) which provides a set of refactorings for `IDictionary<,>`.
+This is a plugin for [ReSharper](http://jetbrains.com/resharper) which provides a set of refactorings for `IDictionary<,>`.
 
 ###Example
 
