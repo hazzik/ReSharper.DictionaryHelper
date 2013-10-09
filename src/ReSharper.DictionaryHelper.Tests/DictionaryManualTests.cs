@@ -13,7 +13,10 @@ namespace ReSharper.DictionaryHelper.Tests
         public int Test1(Dictionary<int, int> dictionary, int key)
         {
             if (dictionary.ContainsKey(key))
+            {
+                var z1 = dictionary[key] = 1;
                 return dictionary[key];
+            }
             return -1;
         }
 

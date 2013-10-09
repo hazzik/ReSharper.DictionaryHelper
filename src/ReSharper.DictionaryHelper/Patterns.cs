@@ -38,7 +38,7 @@ namespace ReSharper.DictionaryHelper
         private IEnumerable<IStructuralMatchResult> FindDictionaryAccess(ITreeNode statement)
         {
             var result = DictionaryAccessMatcher.Match(statement);
-            if (result.Matched)
+            if (result.Matched && IsNotAssignmentDestination(result.MatchedElement))
             {
                 yield return result;
                 yield break;
@@ -49,46 +49,15 @@ namespace ReSharper.DictionaryHelper
             }
         }
 
-        private IEnumerable<IStructuralMatchResult> GetDictionaryAccess(ITreeNode statement)
+        private static bool IsNotAssignmentDestination(ITreeNode node)
         {
-            var assignment = statement as IAssignmentExpression;
-            if (assignment != null)
-            {
-                foreach (var assignmentResult in FindDictionaryAccess(assignment.Source))
-                {
-                    yield return assignmentResult;
-                }
-                yield break;
-            }
-            var initializer = statement as IExpressionInitializer;
-            if (initializer != null)
-            {
-                foreach (var initializerResult in FindDictionaryAccess(initializer.Value))
-                {
-                    yield return initializerResult;
-                }
-                yield break;
-            }
-            
-            var @return = statement as IReturnStatement;
-            if (@return != null)
-            {
-                foreach (var returnResult in FindDictionaryAccess(@return.Value))
-                {
-                    yield return returnResult;
-                }
-                yield break;
-            }
-
-            foreach (var r in statement.Children().SelectMany(GetDictionaryAccess))
-            {
-                yield return r;
-            }
+            var assignmentExpression = node.Parent as IAssignmentExpression;
+            return assignmentExpression == null || node != assignmentExpression.Dest;
         }
 
         public IEnumerable<ITreeNode> GetMatchingDictionaryAccess(ITreeNode statement, ITreeNode dictionary, ITreeNode key)
         {
-            return GetDictionaryAccess(statement)
+            return FindDictionaryAccess(statement)
                 .Where(x => AreSame(dictionary, x.GetMatchedElement("dictionary")) &&
                             AreSame(key, x.GetMatchedElement("key")))
                 .Select(x => x.MatchedElement);
