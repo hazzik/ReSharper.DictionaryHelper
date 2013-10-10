@@ -1,6 +1,8 @@
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Services.StructuralSearch;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace ReSharper.DictionaryHelper
 {
@@ -8,15 +10,18 @@ namespace ReSharper.DictionaryHelper
     public class DictionaryHighlighting : IHighlighting
     {
         private readonly IIfStatement _ifStatement;
+        private readonly IStructuralMatchResult _matchResult;
 
-        public DictionaryHighlighting(IIfStatement ifStatement)
+        public DictionaryHighlighting(IIfStatement ifStatement, IStructuralMatchResult matchResult)
         {
             _ifStatement = ifStatement;
+            _matchResult = matchResult;
         }
 
         public bool IsValid()
         {
-            return IfStatement != null && IfStatement.IsValid();
+            return _ifStatement != null && _matchResult != null &&
+                   _ifStatement.IsValid() && _matchResult.MatchedElement.IsValid();
         }
 
         public string ToolTip
@@ -37,6 +42,11 @@ namespace ReSharper.DictionaryHelper
         public IIfStatement IfStatement
         {
             get { return _ifStatement; }
+        }
+
+        public IStructuralMatchResult MatchResult
+        {
+            get { return _matchResult; }
         }
     }
 }

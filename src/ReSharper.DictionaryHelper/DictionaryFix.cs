@@ -11,6 +11,7 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
 using JetBrains.ReSharper.Psi.Naming.Settings;
+using JetBrains.ReSharper.Psi.Services.StructuralSearch;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
@@ -23,10 +24,12 @@ namespace ReSharper.DictionaryHelper
     {
         private readonly IIfStatement _statement;
         private readonly Patterns patterns = new Patterns();
+        private readonly IStructuralMatchResult _matchResult;
 
         public DictionaryFix(DictionaryHighlighting highlighting)
         {
             _statement = highlighting.IfStatement;
+            _matchResult = highlighting.MatchResult;
         }
 
         public override string Text
@@ -37,22 +40,19 @@ namespace ReSharper.DictionaryHelper
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var factory = CSharpElementFactory.GetInstance(_statement);
-            var containsKeys = patterns.GetMatchingContainsKey(_statement.Condition);
-            foreach (var containsKey in containsKeys)
-            {
-                var dictionary = (IExpression) containsKey.GetMatchedElement("dictionary");
-                var key = containsKey.GetMatchedElement("key");
-                var valueType = GuessValueType(dictionary) ?? "var";
 
-                var valueVariableName = SuggestVariableName(_statement, "value");
-                var valueReference = factory.CreateReferenceExpression(valueVariableName);
-                var valueDeclaration = factory.CreateStatement("$0 $1;", valueType, valueVariableName);
-                var newCondition = factory.CreateExpression("$0.TryGetValue($1, out $2)", dictionary, key, valueReference);
+            var dictionary = (IExpression) _matchResult.GetMatchedElement("dictionary");
+            var key = _matchResult.GetMatchedElement("key");
+            var valueType = GuessValueType(dictionary) ?? "var";
 
-                patterns.GetMatchingDictionaryAccess(_statement, dictionary, key).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
-                ModificationUtil.ReplaceChild(containsKey.MatchedElement, newCondition);
-                ModificationUtil.AddChildBefore(_statement, valueDeclaration);
-            }
+            var valueVariableName = SuggestVariableName(_statement, "value");
+            var valueReference = factory.CreateReferenceExpression(valueVariableName);
+            var valueDeclaration = factory.CreateStatement("$0 $1;", valueType, valueVariableName);
+            var newCondition = factory.CreateExpression("$0.TryGetValue($1, out $2)", dictionary, key, valueReference);
+
+            patterns.GetMatchingDictionaryAccess(_statement, dictionary, key).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
+            ModificationUtil.ReplaceChild(_matchResult.MatchedElement, newCondition);
+            ModificationUtil.AddChildBefore(_statement, valueDeclaration);
 
             return null;
         }
