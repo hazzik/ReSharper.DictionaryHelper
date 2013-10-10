@@ -4,6 +4,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch;
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch.Placeholders;
 using JetBrains.ReSharper.Psi.Services.StructuralSearch;
+using JetBrains.ReSharper.Psi.Services.StructuralSearch.Impl;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util.Lazy;
 
@@ -20,30 +21,19 @@ namespace ReSharper.DictionaryHelper
                 new ExpressionPlaceholder("dictionary", "System.Collections.Generic.IDictionary<,>"),
                 new ExpressionPlaceholder("key")).CreateMatcher());
             _dictionaryAccess = Lazy.Of(() => new CSharpStructuralSearchPattern("$dictionary$[$key$]",
-                new IdentifierPlaceholder("a"),
                 new ExpressionPlaceholder("dictionary", "System.Collections.Generic.IDictionary<,>"),
                 new ExpressionPlaceholder("key")).CreateMatcher());
         }
 
-        public IStructuralMatcher ContainsKeyMatcher
+        private static IEnumerable<IStructuralMatchResult> FindMatches(IStructuralMatcher matcher, ITreeNode statement)
         {
-            get { return _containsKey.Value; }
-        }
-
-        public IStructuralMatcher DictionaryAccessMatcher
-        {
-            get { return _dictionaryAccess.Value; }
-        }
-
-        private IEnumerable<IStructuralMatchResult> FindDictionaryAccess(ITreeNode statement)
-        {
-            var result = DictionaryAccessMatcher.Match(statement);
-            if (result.Matched && IsNotAssignmentDestination(result.MatchedElement))
+            var result = matcher.Match(statement);
+            if (result.Matched)
             {
                 yield return result;
                 yield break;
             }
-            foreach (var r in statement.Children().SelectMany(FindDictionaryAccess))
+            foreach (var r in statement.Children().SelectMany(node => FindMatches(matcher, node)))
             {
                 yield return r;
             }
@@ -57,10 +47,11 @@ namespace ReSharper.DictionaryHelper
 
         public IEnumerable<ITreeNode> GetMatchingDictionaryAccess(ITreeNode statement, ITreeNode dictionary, ITreeNode key)
         {
-            return FindDictionaryAccess(statement)
-                .Where(x => AreSame(dictionary, x.GetMatchedElement("dictionary")) &&
-                            AreSame(key, x.GetMatchedElement("key")))
-                .Select(x => x.MatchedElement);
+            return FindMatches(_dictionaryAccess.Value, statement)
+                .Where(r => IsNotAssignmentDestination(r.MatchedElement))
+                .Where(r => AreSame(dictionary, r.GetMatchedElement("dictionary")) &&
+                            AreSame(key, r.GetMatchedElement("key")))
+                .Select(r => r.MatchedElement);
         }
 
         private static bool AreSame(ITreeNode x, ITreeNode y)
@@ -78,6 +69,11 @@ namespace ReSharper.DictionaryHelper
                 return Equals(referenceX.Reference.Resolve().DeclaredElement, referenceY.Reference.Resolve().DeclaredElement);
             }
             return false;
+        }
+
+        public IEnumerable<IStructuralMatchResult> GetMatchingContainsKey(ITreeNode expression)
+        {
+            return FindMatches(_containsKey.Value, expression);
         }
     }
 }

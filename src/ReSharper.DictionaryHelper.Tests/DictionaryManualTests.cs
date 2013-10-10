@@ -12,12 +12,18 @@ namespace ReSharper.DictionaryHelper.Tests
 
         public int Test1(Dictionary<int, int> dictionary, int key)
         {
-            if (dictionary.ContainsKey(key))
+            if (dictionary.ContainsKey(key) && true)
             {
+                SomeMethod(dictionary[key]);
                 var z1 = dictionary[key] = 1;
                 return dictionary[key];
             }
             return -1;
+        }
+
+        private void SomeMethod(int i)
+        {
+            throw new System.NotImplementedException();
         }
 
         [Test]

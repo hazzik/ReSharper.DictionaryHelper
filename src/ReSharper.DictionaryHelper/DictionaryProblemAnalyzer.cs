@@ -19,14 +19,14 @@ namespace ReSharper.DictionaryHelper
 
         protected override void Run(IIfStatement element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
         {
-            var conditionMatch = patterns.ContainsKeyMatcher.Match(element.Condition);
-            if (conditionMatch.Matched)
+            var containsKeys = patterns.GetMatchingContainsKey(element.Condition);
+            foreach (var containsKey in containsKeys)
             {
-                var dictionary = conditionMatch.GetMatchedElement("dictionary");
-                var key = conditionMatch.GetMatchedElement("key");
+                var dictionary = containsKey.GetMatchedElement("dictionary");
+                var key = containsKey.GetMatchedElement("key");
 
-                if (patterns.GetMatchingDictionaryAccess(element.Then, dictionary, key).Any())
-                    consumer.AddHighlighting(new DictionaryHighlighting(element), element.Condition.GetHighlightingRange());
+                if (patterns.GetMatchingDictionaryAccess(element, dictionary, key).Any())
+                    consumer.AddHighlighting(new DictionaryHighlighting(element), containsKey.MatchedElement.GetHighlightingRange());
             }
         }
     }
