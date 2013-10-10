@@ -1,7 +1,6 @@
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Services.StructuralSearch;
 using JetBrains.ReSharper.Psi.Tree;
 
 namespace ReSharper.DictionaryHelper
@@ -9,19 +8,30 @@ namespace ReSharper.DictionaryHelper
     [StaticSeverityHighlighting(Severity.WARNING, CSharpLanguage.Name)]
     public class DictionaryHighlighting : IHighlighting
     {
-        private readonly IIfStatement _ifStatement;
-        private readonly IStructuralMatchResult _matchResult;
+        public ITreeNode[] DictionaryAccess
+        {
+            get { return _dictionaryAccess; }
+        }
 
-        public DictionaryHighlighting(IIfStatement ifStatement, IStructuralMatchResult matchResult)
+        private readonly IIfStatement _ifStatement;
+        private readonly ITreeNode _matchedElement;
+        private readonly IExpression _dictionary;
+        private readonly ITreeNode _key;
+        private readonly ITreeNode[] _dictionaryAccess;
+
+        public DictionaryHighlighting(IIfStatement ifStatement, ITreeNode[] dictionaryAccess, ITreeNode matchedElement, ITreeNode key, IExpression dictionary)
         {
             _ifStatement = ifStatement;
-            _matchResult = matchResult;
+            _matchedElement = matchedElement;
+            _dictionary = dictionary;
+            _key = key;
+            _dictionaryAccess = dictionaryAccess;
         }
 
         public bool IsValid()
         {
-            return _ifStatement != null && _matchResult != null &&
-                   _ifStatement.IsValid() && _matchResult.MatchedElement.IsValid();
+            return _ifStatement != null &&
+                   _ifStatement.IsValid();
         }
 
         public string ToolTip
@@ -44,9 +54,19 @@ namespace ReSharper.DictionaryHelper
             get { return _ifStatement; }
         }
 
-        public IStructuralMatchResult MatchResult
+        public ITreeNode MatchedElement
         {
-            get { return _matchResult; }
+            get { return _matchedElement; }
+        }
+
+        public ITreeNode Key
+        {
+            get { return _key; }
+        }
+
+        public IExpression Dictionary
+        {
+            get { return _dictionary; }
         }
     }
 }

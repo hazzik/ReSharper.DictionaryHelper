@@ -4,7 +4,6 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch;
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch.Placeholders;
 using JetBrains.ReSharper.Psi.Services.StructuralSearch;
-using JetBrains.ReSharper.Psi.Services.StructuralSearch.Impl;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util.Lazy;
 
@@ -45,13 +44,14 @@ namespace ReSharper.DictionaryHelper
             return assignmentExpression == null || node != assignmentExpression.Dest;
         }
 
-        public IEnumerable<ITreeNode> GetMatchingDictionaryAccess(ITreeNode statement, ITreeNode dictionary, ITreeNode key)
+        public ITreeNode[] GetMatchingDictionaryAccess(ITreeNode statement, ITreeNode dictionary, ITreeNode key)
         {
             return FindMatches(_dictionaryAccess.Value, statement)
                 .Where(r => IsNotAssignmentDestination(r.MatchedElement))
                 .Where(r => AreSame(dictionary, r.GetMatchedElement("dictionary")) &&
                             AreSame(key, r.GetMatchedElement("key")))
-                .Select(r => r.MatchedElement);
+                .Select(r => r.MatchedElement)
+                .ToArray();
         }
 
         private static bool AreSame(ITreeNode x, ITreeNode y)

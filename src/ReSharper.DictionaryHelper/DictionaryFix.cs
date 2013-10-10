@@ -11,7 +11,6 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
 using JetBrains.ReSharper.Psi.Naming.Settings;
-using JetBrains.ReSharper.Psi.Services.StructuralSearch;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
@@ -23,13 +22,18 @@ namespace ReSharper.DictionaryHelper
     public class DictionaryFix : QuickFixBase
     {
         private readonly IIfStatement _statement;
-        private readonly Patterns patterns = new Patterns();
-        private readonly IStructuralMatchResult _matchResult;
+        private readonly ITreeNode _matchedElement;
+        private readonly ITreeNode[] _dictionaryAccess;
+        private readonly IExpression _dictionary;
+        private readonly ITreeNode _key;
 
         public DictionaryFix(DictionaryHighlighting highlighting)
         {
             _statement = highlighting.IfStatement;
-            _matchResult = highlighting.MatchResult;
+            _matchedElement = highlighting.MatchedElement;
+            _dictionaryAccess = highlighting.DictionaryAccess;
+            _dictionary = highlighting.Dictionary;
+            _key = highlighting.Key;
         }
 
         public override string Text
@@ -41,17 +45,15 @@ namespace ReSharper.DictionaryHelper
         {
             var factory = CSharpElementFactory.GetInstance(_statement);
 
-            var dictionary = (IExpression) _matchResult.GetMatchedElement("dictionary");
-            var key = _matchResult.GetMatchedElement("key");
-            var valueType = GuessValueType(dictionary) ?? "var";
+            var valueType = GuessValueType(_dictionary) ?? "var";
 
             var valueVariableName = SuggestVariableName(_statement, "value");
             var valueReference = factory.CreateReferenceExpression(valueVariableName);
             var valueDeclaration = factory.CreateStatement("$0 $1;", valueType, valueVariableName);
-            var newCondition = factory.CreateExpression("$0.TryGetValue($1, out $2)", dictionary, key, valueReference);
+            var newCondition = factory.CreateExpression("$0.TryGetValue($1, out $2)", _dictionary, _key, valueReference);
 
-            patterns.GetMatchingDictionaryAccess(_statement, dictionary, key).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
-            ModificationUtil.ReplaceChild(_matchResult.MatchedElement, newCondition);
+            _dictionaryAccess.Where(x => x.IsValid()).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
+            ModificationUtil.ReplaceChild(_matchedElement, newCondition);
             ModificationUtil.AddChildBefore(_statement, valueDeclaration);
 
             return null;
