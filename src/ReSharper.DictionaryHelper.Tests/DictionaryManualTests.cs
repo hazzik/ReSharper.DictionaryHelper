@@ -42,27 +42,32 @@ namespace ReSharper.DictionaryHelper.Tests
             else
             {
             }
-
-            if (dictionary.ContainsKey(key))
-            {
+            if (A())
+                if (dictionary.ContainsKey(key))
+                {
+                    {
+                    }
+                    var z = 0;
+                    dictionary[key] = z;
+                    int z2;
+                    var z1 = dictionary[key + 1];
+                    z2 = dictionary[key];
+                    z3 = dictionary[key];
+                    z3 = dictionary[key];
+                    z4 = dictionary[key];
+                    z4 = dictionary[key];
+                    new DictionaryManualTests().z3 = dictionary[key];
+                    var x = new DictionaryManualTests();
+                    x.z3 = dictionary[key];
+                }
+                else
                 {
                 }
-                var z = 0;
-                dictionary[key] = z;
-                int z2;
-                var z1 = dictionary[key + 1];
-                z2 = dictionary[key];
-                z3 = dictionary[key];
-                z3 = dictionary[key];
-                z4 = dictionary[key];
-                z4 = dictionary[key];
-                new DictionaryManualTests().z3 = dictionary[key];
-                var x = new DictionaryManualTests();
-                x.z3 = dictionary[key];
-            }
-            else
-            {
-            }
+        }
+
+        private static bool A()
+        {
+            return true;
         }
     }
 }

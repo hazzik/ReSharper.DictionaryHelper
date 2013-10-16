@@ -7,6 +7,7 @@ using JetBrains.ReSharper.Intentions.Extensibility;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.CSharp.Util;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
@@ -54,7 +55,14 @@ namespace ReSharper.DictionaryHelper
 
             _dictionaryAccess.Where(x => x.IsValid()).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
             ModificationUtil.ReplaceChild(_matchedElement, newCondition);
-            ModificationUtil.AddChildBefore(_statement, valueDeclaration);
+            if (_statement.Parent is IBlock)
+            {
+                ModificationUtil.AddChildBefore(_statement, valueDeclaration);
+            }
+            else
+            {
+                _statement.ReplaceBy(factory.CreateBlock("{$0$1}", valueDeclaration, _statement));
+            }
 
             return null;
         }
