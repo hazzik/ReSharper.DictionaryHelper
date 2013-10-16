@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+
+namespace ReSharper.DictionaryHelper.Tests
+{
+    public class Test02
+    {
+        public string Method(IDictionary<int, string> dictionary, int key)
+        {
+          string value;
+          if (!dictionary{caret}.TryGetValue(key, out value))
+                return null;
+            else
+                return value;
+        }
+    }
+}

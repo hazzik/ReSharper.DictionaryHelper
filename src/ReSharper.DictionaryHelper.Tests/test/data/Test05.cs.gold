@@ -1,0 +1,20 @@
+﻿using System.Collections.Generic;
+
+namespace ReSharper.DictionaryHelper.Tests
+{
+    public class Test04
+    {
+        public string Method(IDictionary<int, string> dictionary, int key)
+        {
+          string value1;
+          if (dictionary.TryGetValue(key, out value1))
+            {
+                var value = va{caret}lue1;
+                var value2 = value1;
+                return value1;
+            }
+
+            return null;
+        }
+    }
+}

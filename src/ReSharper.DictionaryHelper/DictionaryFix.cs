@@ -53,15 +53,18 @@ namespace ReSharper.DictionaryHelper
             var valueDeclaration = factory.CreateStatement("$0 $1;", valueType, valueVariableName);
             var newCondition = factory.CreateExpression("$0.TryGetValue($1, out $2)", _dictionary, _key, valueReference);
 
-            _dictionaryAccess.Where(x => x.IsValid()).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
-            ModificationUtil.ReplaceChild(_matchedElement, newCondition);
-            if (_statement.Parent is IBlock)
+            using (_statement.CreateWriteLock())
             {
-                ModificationUtil.AddChildBefore(_statement, valueDeclaration);
-            }
-            else
-            {
-                _statement.ReplaceBy(factory.CreateBlock("{$0$1}", valueDeclaration, _statement));
+                _dictionaryAccess.Where(x => x.IsValid()).ForEach(e => ModificationUtil.ReplaceChild(e, valueReference));
+                ModificationUtil.ReplaceChild(_matchedElement, newCondition);
+                if (_statement.Parent is IBlock)
+                {
+                    ModificationUtil.AddChildBefore(_statement, valueDeclaration);
+                }
+                else
+                {
+                    _statement.ReplaceBy(factory.CreateBlock("{$0$1}", valueDeclaration, _statement));
+                }
             }
 
             return null;
