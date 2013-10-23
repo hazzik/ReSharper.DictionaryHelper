@@ -20,7 +20,7 @@ public class TestEnvironmentAssembly : ReSharperTestEnvironmentAssembly
     {
         // Test assembly
         yield return Assembly.GetExecutingAssembly();
-        yield return typeof (DictionaryFix).Assembly;
+        yield return typeof (DictionaryContainsKeyFix).Assembly;
     }
 
     public override void SetUp()

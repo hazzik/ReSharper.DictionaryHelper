@@ -7,7 +7,6 @@ using JetBrains.ReSharper.Intentions.Extensibility;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.CSharp.Util;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
@@ -20,21 +19,21 @@ using JetBrains.Util;
 namespace ReSharper.DictionaryHelper
 {
     [QuickFix]
-    public class DictionaryFix : QuickFixBase
+    public class DictionaryContainsKeyFix : QuickFixBase
     {
-        private readonly IIfStatement _statement;
+        private readonly ICSharpStatement _statement;
         private readonly ITreeNode _matchedElement;
         private readonly ITreeNode[] _dictionaryAccess;
         private readonly IExpression _dictionary;
         private readonly ITreeNode _key;
 
-        public DictionaryFix(DictionaryHighlighting highlighting)
+        public DictionaryContainsKeyFix(DictionaryContainsKeyWarning warning)
         {
-            _statement = highlighting.IfStatement;
-            _matchedElement = highlighting.MatchedElement;
-            _dictionaryAccess = highlighting.DictionaryAccess;
-            _dictionary = highlighting.Dictionary;
-            _key = highlighting.Key;
+            _statement = warning.Statement;
+            _matchedElement = warning.MatchedElement;
+            _dictionaryAccess = warning.DictionaryAccess;
+            _dictionary = warning.Dictionary;
+            _key = warning.Key;
         }
 
         public override string Text

@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace ReSharper.DictionaryHelper.Tests
 {
     [TestFixture]
-    public class DictionaryAccessTests : CSharpQuickFixTestBase<DictionaryFix>
+    public class DictionaryContainsKeyFixTests : CSharpQuickFixTestBase<DictionaryContainsKeyFix>
     {
         protected override string RelativeTestDataPath
         {

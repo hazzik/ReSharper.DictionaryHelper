@@ -6,22 +6,22 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace ReSharper.DictionaryHelper
 {
     [StaticSeverityHighlighting(Severity.WARNING, CSharpLanguage.Name)]
-    public class DictionaryHighlighting : IHighlighting
+    public class DictionaryContainsKeyWarning : IHighlighting
     {
         public ITreeNode[] DictionaryAccess
         {
             get { return _dictionaryAccess; }
         }
 
-        private readonly IIfStatement _ifStatement;
+        private readonly ICSharpStatement _statement;
         private readonly ITreeNode _matchedElement;
         private readonly IExpression _dictionary;
         private readonly ITreeNode _key;
         private readonly ITreeNode[] _dictionaryAccess;
 
-        public DictionaryHighlighting(IIfStatement ifStatement, ITreeNode[] dictionaryAccess, ITreeNode matchedElement, ITreeNode key, IExpression dictionary)
+        public DictionaryContainsKeyWarning(ICSharpStatement statement, ITreeNode[] dictionaryAccess, ITreeNode matchedElement, ITreeNode key, IExpression dictionary)
         {
-            _ifStatement = ifStatement;
+            _statement = statement;
             _matchedElement = matchedElement;
             _dictionary = dictionary;
             _key = key;
@@ -30,8 +30,8 @@ namespace ReSharper.DictionaryHelper
 
         public bool IsValid()
         {
-            return _ifStatement != null &&
-                   _ifStatement.IsValid();
+            return _statement != null &&
+                   _statement.IsValid();
         }
 
         public string ToolTip
@@ -49,9 +49,9 @@ namespace ReSharper.DictionaryHelper
             get { return 0; }
         }
 
-        public IIfStatement IfStatement
+        public ICSharpStatement Statement
         {
-            get { return _ifStatement; }
+            get { return _statement; }
         }
 
         public ITreeNode MatchedElement

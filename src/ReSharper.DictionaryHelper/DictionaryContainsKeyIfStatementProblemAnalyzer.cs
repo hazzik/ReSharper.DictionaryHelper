@@ -8,12 +8,12 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace ReSharper.DictionaryHelper
 {
-    [ElementProblemAnalyzer(new[] { typeof (IIfStatement) }, HighlightingTypes = new[] { typeof (DictionaryHighlighting) })]
-    public class DictionaryProblemAnalyzer : ElementProblemAnalyzer<IIfStatement>
+    [ElementProblemAnalyzer(new[] { typeof (IIfStatement) }, HighlightingTypes = new[] { typeof (DictionaryContainsKeyWarning) })]
+    public class DictionaryContainsKeyIfStatementProblemAnalyzer : ElementProblemAnalyzer<IIfStatement>
     {
         private readonly Patterns patterns = new Patterns();
 
-        public DictionaryProblemAnalyzer(StructuralSearchEngine ssr)
+        public DictionaryContainsKeyIfStatementProblemAnalyzer(StructuralSearchEngine ssr)
         {
         }
 
@@ -29,7 +29,7 @@ namespace ReSharper.DictionaryHelper
                 var dictionaryAccess = patterns.GetMatchingDictionaryAccess(element, dictionary, key);
                 if (dictionaryAccess.Length > 0)
                 {
-                    var highlighting = new DictionaryHighlighting(element, dictionaryAccess, matchedElement, key, (IExpression) dictionary);
+                    var highlighting = new DictionaryContainsKeyWarning(element, dictionaryAccess, matchedElement, key, (IExpression) dictionary);
                     consumer.AddHighlighting(highlighting, matchedElement.GetHighlightingRange());
                     foreach (var treeNode in dictionaryAccess)
                     {
