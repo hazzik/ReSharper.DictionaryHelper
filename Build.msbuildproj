@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.</SolutionDir>
+    <ProjectDir>$(SolutionDir)\src\ReSharper.DictionaryHelper</ProjectDir>
+    <PackageOutputDir>$(ProjectDir)\bin\$(Configuration)</PackageOutputDir>
+  </PropertyGroup>
+  <Target Name="All" DependsOnTargets="Build;NuGetPack" />
+  <Target Name="Build" DependsOnTargets="RestorePackages">
+    <MSBuild Projects="ReSharper.DictionaryHelper.sln" Properties="Configuration=$(Configuration)"/>
+  </Target>
+  <Target Name="NuGetPack">
+    <Exec Command="$(NuGetExePath) pack $(ProjectDir)\ReSharper.DictionaryHelper.nuspec -Properties &quot;Configuration=$(Configuration)&quot; $(NonInteractiveSwitch) -OutputDirectory &quot;$(PackageOutputDir)&quot;" />
+  </Target>
+  <Target Name="RestorePackages">
+    <Exec Command="$(NuGetExePath) restore"/>
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+</Project>
