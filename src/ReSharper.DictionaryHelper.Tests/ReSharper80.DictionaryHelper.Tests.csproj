@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.Tests.8.0.1243\build\JetBrains.ReSharper.SDK.Tests.Props" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.Tests.8.0.1243\build\JetBrains.ReSharper.SDK.Tests.Props')" />
   <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Props" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Props')" />
+  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.Tests.8.0.1243\build\JetBrains.ReSharper.SDK.Tests.Props" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.Tests.8.0.1243\build\JetBrains.ReSharper.SDK.Tests.Props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\v8.0\</OutputPath>
     <DefineConstants>JET_MODE_ASSERT;DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release\v8.0\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -48,6 +48,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\ReSharper.DictionaryHelper.Tests\8.0\packages.config">
+      <Link>packages.config</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="test\data\Test07.cs" />
     <None Include="test\data\Test07.cs.gold" />
@@ -68,9 +71,9 @@
     <None Include="test\data\Test05.cs.gold" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReSharper.DictionaryHelper\ReSharper.DictionaryHelper.csproj">
-      <Project>{c33082d9-19ed-46d2-9606-6e065413e489}</Project>
-      <Name>ReSharper.DictionaryHelper</Name>
+    <ProjectReference Include="..\ReSharper.DictionaryHelper\ReSharper80.DictionaryHelper.csproj">
+      <Project>{fec4d185-ee9b-47cd-91e5-84870a8ae32e}</Project>
+      <Name>ReSharper80.DictionaryHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

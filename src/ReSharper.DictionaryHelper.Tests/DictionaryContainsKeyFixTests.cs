@@ -23,7 +23,7 @@ namespace ReSharper.DictionaryHelper.Tests
         private IEnumerable<string> Files()
         {
             return new DirectoryInfo(BaseTestDataPath.Combine(RelativeTestDataPath).FullPath)
-                .EnumerateFiles("*.cs")
+                .GetFiles("*.cs")
                 .Select(x => x.Name);
         }
     }
