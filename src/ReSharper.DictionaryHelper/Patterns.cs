@@ -47,9 +47,9 @@ namespace ReSharper.DictionaryHelper
         public ITreeNode[] GetMatchingDictionaryAccess(ITreeNode statement, ITreeNode dictionary, ITreeNode key)
         {
             return FindMatches(_dictionaryAccess.Value, statement)
-                .Where(r => IsNotAssignmentDestination(r.MatchedElement))
                 .Where(r => AreSame(dictionary, r.GetMatchedElement("dictionary")) &&
                             AreSame(key, r.GetMatchedElement("key")))
+                .TakeWhile(r => IsNotAssignmentDestination(r.MatchedElement))
                 .Select(r => r.MatchedElement)
                 .ToArray();
         }

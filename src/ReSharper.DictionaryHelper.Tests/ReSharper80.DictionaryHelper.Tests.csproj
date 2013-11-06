@@ -48,11 +48,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="test\data\Test08.cs" />
     <None Include="..\ReSharper.DictionaryHelper.Tests\8.0\packages.config">
       <Link>packages.config</Link>
     </None>
     <None Include="packages.config" />
     <None Include="test\data\Test07.cs" />
+    <None Include="test\data\Test08.cs.gold" />
     <None Include="test\data\Test07.cs.gold" />
     <None Include="test\data\Test06.cs" />
     <None Include="test\data\Test06.cs.gold" />
