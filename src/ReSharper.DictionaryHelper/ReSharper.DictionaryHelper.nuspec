@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ReSharper.DictionaryHelper</id>
-    <version>0.5.1</version>
+    <version>0.6.0</version>
     <title>ReSharper.DictionaryHelper</title>
     <authors>Alexander Zaytsev</authors>
     <owners>Hazzik</owners>
