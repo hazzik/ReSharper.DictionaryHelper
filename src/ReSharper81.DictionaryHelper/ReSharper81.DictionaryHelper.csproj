@@ -67,6 +67,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\ReSharper.DictionaryHelper\ReSharper.DictionaryHelper.nuspec">
+      <Link>ReSharper.DictionaryHelper.nuspec</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
