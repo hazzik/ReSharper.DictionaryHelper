@@ -39,3 +39,10 @@ class MyClass
 ###Installation
 
 Available in [ReSharper Gallery](http://resharper-plugins.jetbrains.com/packages/ReSharper.DictionaryHelper/)
+
+###Donations
+
+Donations are welcome to 
+
+ BTC 19woiHcAZqDBLDAsi5QDVGwqxdaQawwt6J
+ LTC LP3wMjumuutC45MVwqbNitavUXFqAD8YjU
