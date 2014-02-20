@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0CF63809-0260-4EB0-A514-258C9D7AABED}</ProjectGuid>
+    <ProjectGuid>{B877454C-0A8A-4FF5-AAC3-C44D84C0C4F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReSharper.DictionaryHelper.Tests</RootNamespace>
@@ -17,12 +17,13 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <BaseIntermediateOutputPath>obj\v8.1</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\ReSharper.DictionaryHelper.Tests\bin\Debug\v8.1</OutputPath>
+    <OutputPath>bin\Debug\v8.1\</OutputPath>
     <DefineConstants>JET_MODE_ASSERT;DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +31,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\ReSharper.DictionaryHelper.Tests\bin\Release\v8.1</OutputPath>
+    <OutputPath>bin\Release\v8.1\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -48,27 +49,45 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ReSharper.DictionaryHelper.Tests\DictionaryContainsKeyFixTests.cs">
-      <Link>DictionaryContainsKeyFixTests.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper.Tests\DictionaryManualTests.cs">
-      <Link>DictionaryManualTests.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper.Tests\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
+    <None Include="packages.ReSharper81.DictionaryHelper.Tests.config" />
+    <None Include="test\data\Test08.cs" />
+    <None Include="..\ReSharper.DictionaryHelper.Tests\8.0\packages.config">
+      <Link>packages.config</Link>
+    </None>
+    <None Include="test\data\Test07.cs" />
+    <None Include="test\data\Test08.cs.gold" />
+    <None Include="test\data\Test07.cs.gold" />
+    <None Include="test\data\Test06.cs" />
+    <None Include="test\data\Test06.cs.gold" />
+    <None Include="test\data\Test04.cs.gold" />
+    <None Include="test\data\Test05.cs" />
+    <None Include="test\data\Test04.cs" />
+    <None Include="test\data\Test02.cs.gold" />
+    <None Include="test\data\Test03.cs" />
+    <None Include="test\data\Test02.cs" />
+    <None Include="test\data\Test01.cs" />
+    <Compile Include="DictionaryContainsKeyFixTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DictionaryManualTests.cs" />
+    <None Include="test\data\Test01.cs.gold" />
+    <None Include="test\data\Test03.cs.gold" />
+    <None Include="test\data\Test05.cs.gold" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReSharper81.DictionaryHelper\ReSharper81.DictionaryHelper.csproj">
-      <Project>{c566f53c-f9f9-48df-ae9c-5125b20663db}</Project>
+    <ProjectReference Include="..\ReSharper.DictionaryHelper\ReSharper81.DictionaryHelper.csproj">
+      <Project>{8d3de738-dd1d-47b0-8198-68bf4a0baea7}</Project>
       <Name>ReSharper81.DictionaryHelper</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props'))" />
+    <Error Condition="!Exists('..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets'))" />
+    <Error Condition="!Exists('..\..\packages\JetBrains.ReSharper.SDK.Tests.8.1.555\build\JetBrains.ReSharper.SDK.Tests.Props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\JetBrains.ReSharper.SDK.Tests.8.1.555\build\JetBrains.ReSharper.SDK.Tests.Props'))" />
+  </Target>
   <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets')" />
 </Project>

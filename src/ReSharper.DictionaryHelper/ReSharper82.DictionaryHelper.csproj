@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Props')" />
+  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Props" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C566F53C-F9F9-48DF-AE9C-5125B20663DB}</ProjectGuid>
+    <ProjectGuid>{6894BD0C-99BD-4DE3-A893-13BF8A66AB1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReSharper.DictionaryHelper</RootNamespace>
@@ -16,12 +16,13 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <BaseIntermediateOutputPath>obj\v8.2</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\ReSharper.DictionaryHelper\bin\Debug\v8.1\</OutputPath>
+    <OutputPath>bin\Debug\v8.2\</OutputPath>
     <DefineConstants>JET_MODE_ASSERT;DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\ReSharper.DictionaryHelper\bin\Release\v8.1\</OutputPath>
+    <OutputPath>bin\Release\v8.2\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,32 +48,28 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ReSharper.DictionaryHelper\DictionaryContainsKeyConditionalTernaryExpressionProblemAnalyzer.cs">
-      <Link>DictionaryContainsKeyConditionalTernaryExpressionProblemAnalyzer.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper\DictionaryContainsKeyFix.cs">
-      <Link>DictionaryContainsKeyFix.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper\DictionaryContainsKeyIfStatementProblemAnalyzer.cs">
-      <Link>DictionaryContainsKeyIfStatementProblemAnalyzer.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper\DictionaryContainsKeyWarning.cs">
-      <Link>DictionaryContainsKeyWarning.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper\Patterns.cs">
-      <Link>Patterns.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.DictionaryHelper\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
+    <Compile Include="DictionaryContainsKeyFix.cs" />
+    <Compile Include="DictionaryContainsKeyWarning.cs" />
+    <Compile Include="DictionaryContainsKeyIfStatementProblemAnalyzer.cs" />
+    <Compile Include="DictionaryContainsKeyConditionalTernaryExpressionProblemAnalyzer.cs" />
+    <Compile Include="Patterns.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ReSharper.DictionaryHelper\ReSharper.DictionaryHelper.nuspec">
-      <Link>ReSharper.DictionaryHelper.nuspec</Link>
+    <None Include="..\ReSharper.DictionaryHelper\8.0\packages.config">
+      <Link>packages.config</Link>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.ReSharper82.DictionaryHelper.config" />
+    <None Include="ReSharper.DictionaryHelper.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.1.555\build\JetBrains.ReSharper.SDK.Targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Props'))" />
+    <Error Condition="!Exists('..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Targets'))" />
+  </Target>
+  <Import Project="..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\..\packages\JetBrains.ReSharper.SDK.8.2.921-EAP\build\JetBrains.ReSharper.SDK.Targets')" />
 </Project>
