@@ -25,5 +25,7 @@
     <file src="bin\$Configuration$\v8.1\*.pdb" target="ReSharper\v8.1\plugins\" />
     <file src="bin\$Configuration$\v8.2\*.dll" target="ReSharper\v8.2\plugins\" />
     <file src="bin\$Configuration$\v8.2\*.pdb" target="ReSharper\v8.2\plugins\" />
+    <file src="bin\$Configuration$\v9.0\*.dll" target="ReSharper\v9.0\plugins\" />
+    <file src="bin\$Configuration$\v9.0\*.pdb" target="ReSharper\v9.0\plugins\" />
   </files>
 </package>

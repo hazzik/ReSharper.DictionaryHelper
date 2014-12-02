@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+#if !RESHARPER9
 using JetBrains.ReSharper.Intentions.CSharp.QuickFixes.Tests;
+#else
+using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
+#endif
 using NUnit.Framework;
 
 namespace ReSharper.DictionaryHelper.Tests

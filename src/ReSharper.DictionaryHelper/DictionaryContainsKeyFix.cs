@@ -3,7 +3,11 @@ using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
+#if !RESHARPER9
 using JetBrains.ReSharper.Intentions.Extensibility;
+#else
+using JetBrains.ReSharper.Feature.Services.QuickFixes;
+#endif
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;

@@ -1,4 +1,6 @@
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Daemon;
+using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -32,6 +34,11 @@ namespace ReSharper.DictionaryHelper
         {
             return _statement != null &&
                    _statement.IsValid();
+        }
+
+        public DocumentRange CalculateRange()
+        {
+            throw new System.NotImplementedException();
         }
 
         public string ToolTip

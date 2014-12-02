@@ -1,9 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+#if !RESHARPER9
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch;
 using JetBrains.ReSharper.Psi.Services.CSharp.StructuralSearch.Placeholders;
 using JetBrains.ReSharper.Psi.Services.StructuralSearch;
+#else
+using JetBrains.ReSharper.Feature.Services.StructuralSearch;
+using JetBrains.ReSharper.Feature.Services.CSharp.StructuralSearch;
+using JetBrains.ReSharper.Feature.Services.CSharp.StructuralSearch.Placeholders;
+#endif
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util.Lazy;
 
