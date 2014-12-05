@@ -1,29 +1,35 @@
 using System.Collections.Generic;
 using System.Reflection;
 using JetBrains.Application;
-using JetBrains.TestFramework;
-#if RESHARPER9
-using JetBrains.TestFramework.Application.Zones;
-using JetBrains.ReSharper.Resources.Shell;
-using JetBrains.TestFramework;
-using JetBrains.ReSharper.Resources.Shell;
-#endif
 using JetBrains.Threading;
 using NUnit.Framework;
 using ReSharper.DictionaryHelper;
+#if RESHARPER9
+using JetBrains.ReSharper.Resources.Shell;
+#endif
+#if RESHARPER9
+using JetBrains.Application.BuildScript.Application.Zones;
+using JetBrains.ReSharper.TestFramework;
+using JetBrains.TestFramework;
+using JetBrains.TestFramework.Application.Zones;
+[assembly: TestDataPathBase(@".\test\data")]
 
+[ZoneDefinition]
+public class TestEnvironmentZone : ITestsZone, IRequire<PsiFeatureTestZone>
+{
+}
+
+#endif
 /// <summary>
 /// Test environment. Must be in the global namespace.
 /// </summary>
 // ReSharper disable once CheckNamespace
-#if !RESHARPER9
-public class TestEnvironmentAssembly : ReSharperTestEnvironmentAssembly
-#else
-public class TestsZone : ITestsZone
-{
-}
+#if RESHARPER9
 [SetUpFixture]
-public class TestEnvironmentAssembly : TestEnvironmentAssembly<TestsZone>
+public class ReSharperTestEnvironmentAssembly : TestEnvironmentAssembly<TestEnvironmentZone>
+#else
+[SetUpFixture]
+public class TestEnvironmentAssembly : ReSharperTestEnvironmentAssembly
 #endif
 {
     /// <summary>

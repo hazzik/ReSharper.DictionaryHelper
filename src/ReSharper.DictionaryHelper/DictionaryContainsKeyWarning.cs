@@ -38,7 +38,7 @@ namespace ReSharper.DictionaryHelper
 
         public DocumentRange CalculateRange()
         {
-            throw new System.NotImplementedException();
+            return _matchedElement.GetHighlightingRange();
         }
 
         public string ToolTip
