@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReSharper.DictionaryHelper</RootNamespace>
-    <AssemblyName>ReSharper.DictionaryHelper</AssemblyName>
+    <AssemblyName>ReSharper.DictionaryHelper.D</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -162,6 +162,7 @@
     <Compile Include="DictionaryContainsKeyConditionalTernaryExpressionProblemAnalyzer.cs" />
     <Compile Include="Patterns.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ReSharper.DictionaryHelper\8.0\packages.config">
