@@ -1,13 +1,8 @@
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.Bulbs;
-#if !RESHARPER9
-using JetBrains.ReSharper.Intentions.Extensibility;
-#else
-using JetBrains.ReSharper.Feature.Services.QuickFixes;
-#endif
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -19,6 +14,12 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
+#if !RESHARPER9
+using JetBrains.ReSharper.Intentions.Extensibility;
+using JetBrains.ReSharper.Feature.Services.Bulbs;
+#else
+using JetBrains.ReSharper.Feature.Services.QuickFixes;
+#endif
 
 namespace ReSharper.DictionaryHelper
 {
@@ -40,10 +41,7 @@ namespace ReSharper.DictionaryHelper
             _key = warning.Key;
         }
 
-        public override string Text
-        {
-            get { return "Optimize access to dictionary"; }
-        }
+        public override string Text => "Optimize access to dictionary";
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
@@ -93,17 +91,12 @@ namespace ReSharper.DictionaryHelper
             var declaredType = dictionary.Type() as IDeclaredType;
             if (declaredType == null)
                 return null;
-            
-            var kvp = CollectionTypeUtil.GetKeyValueTypesForGenericDictionary(declaredType);
-            if (kvp == null)
-                return null;
 
-            return kvp.Select(x => x.Second).FirstOrDefault();
+            return CollectionTypeUtil.GetKeyValueTypesForGenericDictionary(declaredType)?
+                .Select(x => x.Second)
+                .FirstOrDefault();
         }
 
-        public override bool IsAvailable(IUserDataHolder cache)
-        {
-            return true;
-        }
+        public override bool IsAvailable(IUserDataHolder cache) => true;
     }
 }

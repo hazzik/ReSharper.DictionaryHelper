@@ -33,8 +33,9 @@ namespace ReSharper.DictionaryHelper
         private static IEnumerable<IStructuralMatchResult> FindMatches(IStructuralMatcher matcher, ITreeNode statement)
         {
             if (statement == null || !statement.IsValid())
+            {
                 yield break;
-
+            }
             var result = matcher.Match(statement);
             if (result.Matched)
             {

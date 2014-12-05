@@ -13,7 +13,7 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace ReSharper.DictionaryHelper
 {
-    [ElementProblemAnalyzer(new[] { typeof (IIfStatement) }, HighlightingTypes = new[] { typeof (DictionaryContainsKeyWarning) })]
+    [ElementProblemAnalyzer(typeof (IIfStatement), HighlightingTypes = new[] { typeof (DictionaryContainsKeyWarning) })]
     public class DictionaryContainsKeyIfStatementProblemAnalyzer : ElementProblemAnalyzer<IIfStatement>
     {
         private readonly Patterns patterns = new Patterns();
@@ -24,7 +24,6 @@ namespace ReSharper.DictionaryHelper
 
         protected override void Run(IIfStatement element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
         {
-
             foreach (var result in patterns.GetMatchingContainsKey(element.Condition))
             {
                 var matchedElement = result.MatchedElement;

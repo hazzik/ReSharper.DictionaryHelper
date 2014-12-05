@@ -10,70 +10,33 @@ namespace ReSharper.DictionaryHelper
     [StaticSeverityHighlighting(Severity.WARNING, CSharpLanguage.Name)]
     public class DictionaryContainsKeyWarning : IHighlighting
     {
-        public ITreeNode[] DictionaryAccess
-        {
-            get { return _dictionaryAccess; }
-        }
-
-        private readonly ICSharpStatement _statement;
-        private readonly ITreeNode _matchedElement;
-        private readonly IExpression _dictionary;
-        private readonly ITreeNode _key;
-        private readonly ITreeNode[] _dictionaryAccess;
+        public ITreeNode[] DictionaryAccess { get; }
 
         public DictionaryContainsKeyWarning(ICSharpStatement statement, ITreeNode[] dictionaryAccess, ITreeNode matchedElement, ITreeNode key, IExpression dictionary)
         {
-            _statement = statement;
-            _matchedElement = matchedElement;
-            _dictionary = dictionary;
-            _key = key;
-            _dictionaryAccess = dictionaryAccess;
+            Statement = statement;
+            MatchedElement = matchedElement;
+            Dictionary = dictionary;
+            Key = key;
+            DictionaryAccess = dictionaryAccess;
         }
 
-        public bool IsValid()
-        {
-            return _statement != null &&
-                   _statement.IsValid();
-        }
+        public bool IsValid() => Statement != null && Statement.IsValid();
 
-        public DocumentRange CalculateRange()
-        {
-            return _matchedElement.GetHighlightingRange();
-        }
+        public DocumentRange CalculateRange() => MatchedElement.GetHighlightingRange();
 
-        public string ToolTip
-        {
-            get { return "Optimize access to dictionary"; }
-        }
+        public string ToolTip => "Optimize access to dictionary";
 
-        public string ErrorStripeToolTip
-        {
-            get { return ToolTip; }
-        }
+        public string ErrorStripeToolTip => ToolTip;
 
-        public int NavigationOffsetPatch
-        {
-            get { return 0; }
-        }
+        public int NavigationOffsetPatch => 0;
 
-        public ICSharpStatement Statement
-        {
-            get { return _statement; }
-        }
+        public ICSharpStatement Statement { get; }
 
-        public ITreeNode MatchedElement
-        {
-            get { return _matchedElement; }
-        }
+        public ITreeNode MatchedElement { get; }
 
-        public ITreeNode Key
-        {
-            get { return _key; }
-        }
+        public ITreeNode Key { get; }
 
-        public IExpression Dictionary
-        {
-            get { return _dictionary; }
-        }
+        public IExpression Dictionary { get; }
     }
 }
