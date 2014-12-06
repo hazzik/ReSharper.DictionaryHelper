@@ -12,12 +12,12 @@ using JetBrains.Application.PluginSupport;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hazzik")]
 [assembly: AssemblyProduct("ReSharper.DictionaryHelper")]
-[assembly: AssemblyCopyright("Copyright © Alexander Zaytsev, 2013")]
+[assembly: AssemblyCopyright("Copyright © Alexander Zaytsev, 2013-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("0.6.3.0")]
-[assembly: AssemblyFileVersion("0.6.3.0")]
+[assembly: AssemblyVersion("0.6.4.0")]
+[assembly: AssemblyFileVersion("0.6.4.0")]
 
 #if !RESHARPER9
 [assembly: PluginTitle("ReSharper.DictionaryHelper")]
